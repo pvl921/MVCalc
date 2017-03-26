@@ -53,23 +53,23 @@ namespace MVCalc
                 operator_symbol = ' ';
 
                 // get operand 1 or quit if "exit"
-                InputController.GetInput(firstTime, 0);
+                DisplayController.GetInput(firstTime, 0);
                 if (firstTime) firstTime = false;
                 consoleInput = Console.ReadLine().Replace(".", ",");
-                if (consoleInput.ToLower() == exit) { OutputController.Quit(); break; }
+                if (consoleInput.ToLower() == exit) { DisplayController.Quit(); break; }
                 try
                 {
                     (operand1OK, operand1) = TryParseOperand(consoleInput);
                 }
                 catch (Exception ex)
                 {
-                    OutputController.ParseException(ex.Message); continue;
+                    DisplayController.ParseException(ex.Message); continue;
                 }
 
                 // get operator or quit if "exit"
-                InputController.GetInput(firstTime, 1);
+                DisplayController.GetInput(firstTime, 1);
                 consoleInput = Console.ReadLine();
-                if (consoleInput.ToLower() == exit) { OutputController.Quit(); break; };
+                if (consoleInput.ToLower() == exit) { DisplayController.Quit(); break; };
                 operatorOK = false;
                 if (consoleInput.Length == 1)
                     try
@@ -83,16 +83,16 @@ namespace MVCalc
                     }
 
                 // get operand 2 or quit if "exit"
-                InputController.GetInput(firstTime, 0, "второй");
+                DisplayController.GetInput(firstTime, 0, "второй");
                 consoleInput = Console.ReadLine().Replace(".", ",");
-                if (consoleInput.ToLower() == exit) { OutputController.Quit(); break; };
+                if (consoleInput.ToLower() == exit) { DisplayController.Quit(); break; };
                 try
                 {
                     (operand2OK, operand2) = TryParseOperand(consoleInput);
                 }
                 catch (Exception ex)
                 {
-                    OutputController.ParseException(ex.Message); continue;
+                    DisplayController.ParseException(ex.Message); continue;
                 }                
 
                 // apply selected operator to operands
@@ -109,10 +109,10 @@ namespace MVCalc
                 }
 
                 // update Model fields
-                OutputController.UpdateModel(data, result, resultOK);
+                DisplayController.UpdateModel(data, result, resultOK);
 
                 // bring the result or error message to the user
-                OutputController.ProcessResult(data);
+                DisplayController.ProcessResult(data);
                 }
          }
      }
