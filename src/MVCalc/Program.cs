@@ -100,7 +100,7 @@ namespace MVCalc
                 {
                     SelectedTransformation = TransformationService.AvailableOperators[operator_symbol];
                     result = SelectedTransformation(operand1, operand2);
-                    if (!double.IsNaN(result)) { resultOK = true; } else { resultOK = false; };
+                    resultOK = (double.IsNaN(result)) ? false : true; 
                 }
                 else
                 {
