@@ -1,4 +1,4 @@
-﻿namespace MVCalc
+﻿namespace MVCalc //TODO MVCalc.Controllers
 {
     class DisplayController
     {
@@ -15,8 +15,8 @@
                     "Available operators:\nx + y\nx - y\nx * y\nx / y\nx ^ y\n\n");
             };
 
-            InputTypes _inputType = (InputTypes)inputType;
-            switch (_inputType)
+            InputTypes _inputType = (InputTypes)inputType; //TODO локальные переменные - camalCase
+            switch (_inputType) //TODO Будь ленивым - так короче switch ((InputTypes)_inputType)
             {
                 case InputTypes.Operand:
                     View.Render(1, ($"Введите {operandNumber} операнд:\t\t"));
@@ -40,7 +40,7 @@
         ///<summary>
         ///Передает данные в модель.
         /// </summary>
-        public static void UpdateModel(Data data, double result, bool resultOK)
+        public static void UpdateModel(Data data, double result, bool resultOK) //TODO Мы пока остановились на том, что все абривиатуры, кроме ID и должны писаться в camalCase  -  resultOk
         {
             data.Result = result;
             data.ResultOK = resultOK;

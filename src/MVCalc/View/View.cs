@@ -11,9 +11,9 @@ namespace MVCalc
         ///<summary>
         ///Отображает переданное текстовое сообщение на консоли. Цвет текста определяется типом сообщения. 
         ///</summary> 
-        public static void Render(int messageType, string _message)
+        public static void Render(int messageType, string _message) //TODO Параметры - camalCase
         {
-            Messages _messageType = (Messages)messageType;
+            Messages _messageType = (Messages)messageType; 
             switch (_messageType)
             {
                 case Messages.Operand:

@@ -21,7 +21,7 @@ namespace MVCalc
                 { '*', new OperatorDelegate(Multiply) },
                 { '/', new OperatorDelegate(Divide) },
                 { '^', new OperatorDelegate(Power) }
-            };
+            }; //TODO Должно быть readonly
 
         ///<summary>
         ///Вычисляет сумму операндов.
