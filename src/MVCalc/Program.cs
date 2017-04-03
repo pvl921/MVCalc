@@ -15,11 +15,24 @@ namespace MVCalc
         //        var op1 = Console.ReadLine();
         //        var op2 = Console.ReadLine();
         //        var op  = Console.ReadLine();
-        //
+        //        
         //        try
         //        {
-        //            var result = Controller.Evaluate(op1, op2, op);
-        //            View.Render(result);
+        //            var operation = Enum.TryParse(op, typeof(Operations));
+        //
+        //            Model model;
+        //            switch (operation) 
+        //            {
+        //                case Operations.Add:
+        //                    model = Controller.Add(op1, op2);
+        //                    break;
+        //                case Operations.Subtract:
+        //                    model = Controller.Subtract(op1, op2);
+        //                    break;
+        //                default:
+        //                    throw new UnavailableOperation(op);
+        //            }
+        //            View.Render(model);
         //        }
         //        catch (Exception e)
         //        {
