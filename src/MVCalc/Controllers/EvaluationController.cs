@@ -11,7 +11,7 @@ namespace MVCalc.Controllers
         {
             string result;
             double resultDouble;
-            bool resultOk;
+            bool isResultOk;
             Models.DataModel model = new Models.DataModel();
             try
             {
@@ -37,7 +37,7 @@ namespace MVCalc.Controllers
                         break;
                 }
                 result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
-                resultOk = !double.IsNaN(resultDouble);
+                isResultOk = !double.IsNaN(resultDouble);
             }
             catch (Exception ex)
             {
@@ -46,17 +46,17 @@ namespace MVCalc.Controllers
                     case "System.FormatException":
                         result = "Неверный формат операнда.";
                         break;
-                    case "System.IndexOutOfRangeException":
-                        result = "Неверный формат оператора.";
+                    case "System.OverflowException":
+                        result = "Значение операнда выходит за допустимые пределы.";
                         break;
                     default:
                         result = "Неизвестная ошибка: " + ex.Message;
                         break;
                 }
-                resultOk = false;
+                isResultOk = false;
             }
             model.Result = result;
-            model.ResultOk = resultOk;
+            model.ResultOk = isResultOk;
             return model;
         }
 
