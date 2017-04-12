@@ -56,7 +56,7 @@ namespace MVCalc.Controllers
                 isResultOk = false;
             }
             model.Result = result;
-            model.ResultOk = isResultOk;
+            model.IsResultOk = isResultOk;
             return model;
         }
 
@@ -67,7 +67,7 @@ namespace MVCalc.Controllers
         {
             Models.DataModel model = new Models.DataModel();
             model.Result = $"Неизвестный символ оператора ({op}).\n";
-            model.ResultOk = false;
+            model.IsResultOk = false;
             return model;           
         }
     }

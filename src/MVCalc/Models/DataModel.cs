@@ -6,6 +6,6 @@
     public class DataModel 
     {
         public string Result { get; set; }
-        public bool ResultOk { get; set; }
+        public bool IsResultOk { get; set; }
     }
 }

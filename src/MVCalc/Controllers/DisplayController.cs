@@ -35,7 +35,7 @@
         /// </summary>
         public static void ProcessResult(Models.DataModel model)
         {
-            if (!model.ResultOk)
+            if (!model.IsResultOk)
                 Views.View.Render(4, $"ОШИБКА! {model.Result}\n\n");
             else
                 Views.View.Render(3, $"Результат:\t\t\t{model.Result}\n\n");
