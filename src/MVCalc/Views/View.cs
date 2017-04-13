@@ -4,14 +4,16 @@ using System.Text;
 
 namespace MVCalc.Views
 {
-    enum Messages {Default, Operand, Operator, Result, Warning}; 
+    //TODO Это не Messages, а MessageTypes
+    enum Messages {Default, Operand, Operator, Result, Warning}; //TODO В корне создай папку Enums и в нее все enum'ы в виде отдельный файлов
+
 
     class View
     {
         ///<summary>
         ///Отображает переданное текстовое сообщение на консоли. Цвет текста определяется типом сообщения. 
         ///</summary> 
-        public static void Render(int messageType, string message) //TODO Параметры - camalCase
+        public static void Render(int messageType, string message) //TODO Почему параметр messageTypeInt, а не Messages messageTypeInt???
         {
             switch ((Messages)messageType)
             {
@@ -27,7 +29,7 @@ namespace MVCalc.Views
                 case Messages.Warning:
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     break;
-                case Messages.Default:
+                case Messages.Default: //TODO это лишнее
                 default:
                     Console.ForegroundColor = ConsoleColor.Gray;
                     break;

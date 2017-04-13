@@ -7,7 +7,7 @@ namespace MVCalc.Controllers
         ///<summary>
         ///Вычисляет результат математической операции. Тип операции задается при вызове функции.
         ///</summary>
-        public static Models.DataModel Operation(string op1, string op2, Operations op)
+        public static Models.DataModel Operation(string op1, string op2, Operations op) //TODO Лучше иметь 100 простых методов, чем один сложный. Раздели метод по операциям - и убей enum
         {
             string result;
             double resultDouble;
@@ -39,11 +39,14 @@ namespace MVCalc.Controllers
                 result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
-            catch (Exception ex)
+            // catch(FormatException ex) { ... }  Вот так обрабатывай исключения
+            // catch (OverflowException ex) { ... }
+            // catch (Exception ex) { ... }
+            catch (Exception ex) 
             {
                 switch (ex.GetType().ToString())
                 {
-                    case "System.FormatException":
+                    case "System.FormatException": //TODO Ой-йой - так не делай никогда!
                         result = "Неверный формат операнда.";
                         break;
                     case "System.OverflowException":
@@ -65,7 +68,15 @@ namespace MVCalc.Controllers
         ///</summary>
         public static Models.DataModel Undefined(string op)
         {
-            Models.DataModel model = new Models.DataModel();
+            //TODO initializer Вот такая запись лучше
+            // Models.DataModel model = new Models.DataModel
+            // {
+            //     Result = $"Неизвестный символ оператора ({op}).\n",
+            //     IsResultOk = false
+            // };
+
+
+            Models.DataModel model = new Models.DataModel(); 
             model.Result = $"Неизвестный символ оператора ({op}).\n";
             model.IsResultOk = false;
             return model;           

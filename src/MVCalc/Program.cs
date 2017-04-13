@@ -73,42 +73,42 @@ namespace MVCalc
                 string consoleOp1, consoleOp2, consoleOp;
 
                 // get operand 1 or quit if "exit"
-                Controllers.DisplayController.GetInput(0);
+                Controllers.DisplayController.GetInput(0); //TODO Скажем нет магическим цифрам! Почему тут 0, а не InputTypes.Undefined? Да и вообще, лучше отдельные методы
                 consoleOp1 = Console.ReadLine();
-                if (consoleOp1.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; }
+                if (consoleOp1.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; } //TODO #1 consoleOp1.ToLower() == EXIT - плохо. Лучше String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)
 
                 // get operator or quit if "exit"
-                Controllers.DisplayController.GetInput(1);
+                Controllers.DisplayController.GetInput(1);//TODO Скажем нет магическим цифрам!
                 consoleOp = Console.ReadLine();
-                if (consoleOp.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; };
+                if (consoleOp.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; }; //TODO #1 consoleOp1.ToLower() == EXIT - плохо. Лучше String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)
 
                 // get operand 2 or quit if "exit"               
-                Controllers.DisplayController.GetInput(0, "второй");
+                Controllers.DisplayController.GetInput(0, "второй");//TODO Скажем нет магическим цифрам!
                 consoleOp2 = Console.ReadLine();
-                if (consoleOp2.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; }
-                
+                if (consoleOp2.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; } //TODO #1 consoleOp1.ToLower() == EXIT - плохо. Лучше String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)
+
                 // calculate the result and check for undefined operator
                 Models.DataModel model;
                 switch (consoleOp)
                     {
                         case "+":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Sum);
+                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Sum); //TODO В отдельные методы
                             break;
                         case "-":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Subtract);
-                            break;
+                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Subtract); //TODO В отдельные методы
+                        break;
                         case "*":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Multiply);
-                            break;
+                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Multiply); //TODO В отдельные методы
+                        break;
                         case "/":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2,Operations.Divide);
-                            break;
+                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2,Operations.Divide); //TODO В отдельные методы
+                        break;
                         case "^":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Power);
-                            break;
+                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Power); //TODO В отдельные методы
+                        break;
                         default:
-                            model = Controllers.EvaluationController.Undefined(consoleOp);
-                            break;
+                            model = Controllers.EvaluationController.Undefined(consoleOp); //TODO В отдельные методы
+                        break;
                     }
 
                 // bring the result or error message to the user

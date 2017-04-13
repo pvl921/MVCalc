@@ -2,12 +2,14 @@
 {
     class DisplayController
     {
-        enum InputTypes { Operand, Operator };
+        enum InputTypes { Operand, Operator }; //TODO Всегда выноси Enumы из классов в отдельную папку Enums. Каждый Enum в отдельном файле. И всегда явно присваивай значения InputTypes { Undefined = 0, Operand = 1, Operator = 2 }
 
         ///<summary>
         ///Формирует текстовые сообщения для ввода данных и пояснения для пользователя.
         ///</summary>
-        public static void GetInput(int inputType, string operandNumber = "первый")
+        public static void GetInput(int inputType, string operandNumber = "первый") //TODO Лучше иметь 100 простых методов, чем один сложный. Раздели метод по операциям - и убей enum
+                                                                                    //TODO Рекомендация Не стоит выносить столь специфичные вещи в дефолтные значения - я про operandNumber.
+                                                                                    //TODO Контроллер (в нашем случае) должен выдавать модель, а не рендерить вью
         {
             switch ((InputTypes)inputType) //TODO Будь ленивым - так короче switch ((InputTypes)_inputType)
             {
