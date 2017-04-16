@@ -1,35 +1,30 @@
 ﻿using System;
 using System.Text;
-
+using MVCalc.Enums;
 
 namespace MVCalc.Views
 {
-    //TODO Это не Messages, а MessageTypes
-    enum Messages {Default, Operand, Operator, Result, Warning}; //TODO В корне создай папку Enums и в нее все enum'ы в виде отдельный файлов
-
-
     class View
     {
         ///<summary>
         ///Отображает переданное текстовое сообщение на консоли. Цвет текста определяется типом сообщения. 
         ///</summary> 
-        public static void Render(int messageType, string message) //TODO Почему параметр messageTypeInt, а не Messages messageTypeInt???
+        public static void Render(MessageTypesEnum.MessageTypes messageType, string message) // тип параметра int заменил на соответствующий enum
         {
-            switch ((Messages)messageType)
+            switch (messageType)
             {
-                case Messages.Operand:
+                case MessageTypesEnum.MessageTypes.Operand:
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     break;
-                case Messages.Operator:
+                case MessageTypesEnum.MessageTypes.Operator:
                     Console.ForegroundColor = ConsoleColor.Green;
                     break;
-                case Messages.Result:
+                case MessageTypesEnum.MessageTypes.Result:
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
-                case Messages.Warning:
+                case MessageTypesEnum.MessageTypes.Warning:
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     break;
-                case Messages.Default: //TODO это лишнее
                 default:
                     Console.ForegroundColor = ConsoleColor.Gray;
                     break;

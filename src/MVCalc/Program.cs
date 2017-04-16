@@ -1,119 +1,81 @@
 ﻿using System;
+using MVCalc.Enums;
+using MVCalc.Controllers;
+using MVCalc.Views;
+using MVCalc.Models;
 
 namespace MVCalc
 {
-    // Enum не позволяет перечислять символы операций, поэтому преобразование символа с консоли в Enum через TryParse не делаем.
-    enum Operations { Sum, Subtract, Multiply, Divide, Power };
-
     public class Program
     {
-        // Не вполне получилось сделать именно так - исключения обрабатываются не в Progman.cs, а в контроллере. Следуя принципу что View вызывется только из контроллера.
-        // Неправильный символ оператора обратывается не через исключение, а через default в switch(consoleOp).
-
-
-        //TODO Общее замечание: немного не соблюдена концепция MVC - метод контроллера должен возвращать модель, а уже Listner должен передавать ее во View. Иначе контроллеры будет сложно тестировать.
-        // Я быхотел что-то типа такого (ну и учеть плюшки типа прерывания ввода - выход из программы, приветственное сообщение и т.п.
-        //static void l()
-        //{
-        //    while (true)
-        //    {
-        //        var op1 = Console.ReadLine();
-        //        var op2 = Console.ReadLine();
-        //        var op  = Console.ReadLine();
-        //        
-        //        try
-        //        {
-        //            var operation = Enum.TryParse(op, typeof(Operations));
-        //
-        //            Model model;
-        //            switch (operation) 
-        //            {
-        //                case Operations.Add:
-        //                    model = Controller.Add(op1, op2);
-        //                    break;
-        //                case Operations.Subtract:
-        //                    model = Controller.Subtract(op1, op2);
-        //                    break;
-        //                default:
-        //                    throw new UnavailableOperation(op);
-        //            }
-        //            View.Render(model);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            View.Render(e);
-        //        }
-        //    }
-        //    
-        //}
+        // Удален контроллер DisplayController. Методы View вызываются в Program.cs напрямую.
+        // Операции в EvaluationController разделены по отдельным методам.
 
         ///<summary>
         ///Программа-калькулятор с использованием модулей контроллера (controller), модели (model) и отображения (view).
         /// </summary> 
         static void Main() 
         {
-            const string EXIT = "exit"; //константа в CAPS
-            
+            const string EXIT = "exit";
 
-            // Создание объекта модели перенесено в контролле EvaluationController. В Progman.cs используется только объявление переменной типа Model перед switch(consoleOp).
-            // Замена ',' на '.' при вводе удалено. При вводе чисел в английской раскладке клавиатуры нужно вводить разделить дробной части в соответствии с локальными настройками операционной системы.
-            // Делегаты больше не используются. Выбор операции и высов соответствущего метода осуществляется в switch(consoleOp) в Progman.cs и switch(op) в контроллере EvaluationСontroller.
-            // Метод TryParseOperand удален, ошибки обрабатываются по исключениям.
-            // Раньше был сервис TransformationService, содержащий набор мат.операций, теперь он оказался не нужен - операции выполяются в контроллере.
-
-            // Приветствие вынесено в отдельный метод у контроллера. Правда, он ничего не возвращает, так же как и все остальные методы DisplayController.
-            // Методы вычисления контроллера EvaluationController возвращают модель.
-
-            Controllers.DisplayController.Welcome();
+            View.Render(MessageTypesEnum.MessageTypes.Default, "Welcome to MVC Calculator.\nEnter first operand(x), then a math operator to be applied, and then the second operand(y).\nType \"Exit\" to quit the program.\n" +
+                                "Available operators:\nx + y\nx - y\nx * y\nx / y\nx ^ y\n\n");
 
             while (true)
             {
-            // Объявление локальных переменных перенесено внутрь цикла.
-
                 string consoleOp1, consoleOp2, consoleOp;
 
                 // get operand 1 or quit if "exit"
-                Controllers.DisplayController.GetInput(0); //TODO Скажем нет магическим цифрам! Почему тут 0, а не InputTypes.Undefined? Да и вообще, лучше отдельные методы
+                View.Render(MessageTypesEnum.MessageTypes.Operand, ($"Введите первый операнд:\t\t")); // вместо DisplayController вывод на экран выполняем здесь
                 consoleOp1 = Console.ReadLine();
-                if (consoleOp1.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; } //TODO #1 consoleOp1.ToLower() == EXIT - плохо. Лучше String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)
+                if (String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); break; } // используем String.Equals c методом сравнения StringComparison.OrdinalIgnoreCase
 
                 // get operator or quit if "exit"
-                Controllers.DisplayController.GetInput(1);//TODO Скажем нет магическим цифрам!
+                View.Render(MessageTypesEnum.MessageTypes.Operator, ($"Введите оператор:\t\t"));
                 consoleOp = Console.ReadLine();
-                if (consoleOp.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; }; //TODO #1 consoleOp1.ToLower() == EXIT - плохо. Лучше String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)
+                if (String.Equals(consoleOp, EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); break; }
 
                 // get operand 2 or quit if "exit"               
-                Controllers.DisplayController.GetInput(0, "второй");//TODO Скажем нет магическим цифрам!
+                View.Render(MessageTypesEnum.MessageTypes.Operand, ($"Введите второй операнд:\t\t"));
                 consoleOp2 = Console.ReadLine();
-                if (consoleOp2.ToLower() == EXIT) { Controllers.DisplayController.Quit(); break; } //TODO #1 consoleOp1.ToLower() == EXIT - плохо. Лучше String.Equals(consoleOp1, EXIT, StringComparison.OrdinalIgnoreCase)
+                if (String.Equals(consoleOp2, EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); break; }
 
                 // calculate the result and check for undefined operator
-                Models.DataModel model;
+                DataModel model;
                 switch (consoleOp)
                     {
                         case "+":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Sum); //TODO В отдельные методы
+                            model = EvaluationController.Sum(consoleOp1, consoleOp2); 
                             break;
                         case "-":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Subtract); //TODO В отдельные методы
+                            model = EvaluationController.Subtract(consoleOp1, consoleOp2); 
                         break;
                         case "*":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Multiply); //TODO В отдельные методы
+                            model = EvaluationController.Multiply(consoleOp1, consoleOp2); 
                         break;
                         case "/":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2,Operations.Divide); //TODO В отдельные методы
+                            model = EvaluationController.Divide(consoleOp1, consoleOp2);
                         break;
                         case "^":
-                            model = Controllers.EvaluationController.Operation(consoleOp1, consoleOp2, Operations.Power); //TODO В отдельные методы
+                            model = EvaluationController.Power(consoleOp1, consoleOp2); 
                         break;
                         default:
-                            model = Controllers.EvaluationController.Undefined(consoleOp); //TODO В отдельные методы
+                            model = EvaluationController.Undefined(consoleOp); // уже был в отдельном методе, не меняется
                         break;
                     }
 
                 // bring the result or error message to the user
-                Controllers.DisplayController.ProcessResult(model);
-                }
+                if (!model.IsResultOk)
+                    View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! {model.Result}\n\n");
+                else
+                    View.Render(MessageTypesEnum.MessageTypes.Result, $"Результат:\t\t\t{model.Result}\n\n");
+            }
          }
+
+        // отдельный метод для упрощения записи
+        static void DisplayExitMessage ()
+        {
+            View.Render(MessageTypesEnum.MessageTypes.Default, "...quitting...\n");
+        }
      }
 }
