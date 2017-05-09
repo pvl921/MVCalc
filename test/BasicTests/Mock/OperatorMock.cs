@@ -2,6 +2,6 @@
 {
     public static class OperatorMock
     {
-        public static string operatorDoublePlus = "++";
+        public static string OperatorDoublePlus = "++";
     }
 }

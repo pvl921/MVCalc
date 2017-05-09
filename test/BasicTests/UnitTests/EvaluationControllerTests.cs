@@ -14,7 +14,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void ShouldSumTwoDoubles()
         {
-            DataModel testModel = EvaluationController.Sum(OperandMock.operand_6_1, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Sum(OperandMock.Operand6_1, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultSum6_1AndMinus2_4, testModel.Result);
@@ -23,7 +23,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void SumShouldReturnWrongFormatMessage()
         {
-            DataModel testModel = EvaluationController.Sum(OperandMock.operand_WrongFormat, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Sum(OperandMock.OperandWrongFormat, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result,Messages.MSG_WRONG_OPERAND_FORMAT);
@@ -32,7 +32,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void SumShouldReturnOperandOverflowMessage()
         {
-            DataModel testModel = EvaluationController.Sum(OperandMock.operand_TooBig, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Sum(OperandMock.OperandTooBig, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_OVERFLOW_OPERAND);
@@ -42,7 +42,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void ShouldSubtractTwoDoubles()
         {
-            DataModel testModel = EvaluationController.Subtract(OperandMock.operand_6_1, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Subtract(OperandMock.Operand6_1, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultSubtract6_1ByMinus2_4, testModel.Result);
@@ -51,7 +51,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void SubtractShouldReturnWrongFormatMessage()
         {
-            DataModel testModel = EvaluationController.Subtract(OperandMock.operand_WrongFormat, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Subtract(OperandMock.OperandWrongFormat, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_WRONG_OPERAND_FORMAT);
@@ -60,7 +60,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void SubtractShouldReturnOperandOverflowMessage()
         {
-            DataModel testModel = EvaluationController.Subtract(OperandMock.operand_TooBig, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Subtract(OperandMock.OperandTooBig, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_OVERFLOW_OPERAND);
@@ -70,7 +70,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void ShouldMultiplyTwoDoubles()
         {
-            DataModel testModel = EvaluationController.Multiply(OperandMock.operand_6_1, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Multiply(OperandMock.Operand6_1, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultMultiply6_1ByMinus2_4, testModel.Result);
@@ -79,7 +79,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void MultiplyShouldReturnWrongFormatMessage()
         {
-            DataModel testModel = EvaluationController.Multiply(OperandMock.operand_WrongFormat, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Multiply(OperandMock.OperandWrongFormat, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_WRONG_OPERAND_FORMAT);
@@ -88,7 +88,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void MultiplyShouldReturnOperandOverflowMessage()
         {
-            DataModel testModel = EvaluationController.Multiply(OperandMock.operand_TooBig, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Multiply(OperandMock.OperandTooBig, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_OVERFLOW_OPERAND);
@@ -98,7 +98,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void ShouldDivideTwoDoubles()
         {
-            DataModel testModel = EvaluationController.Divide(OperandMock.operand_6_1, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Divide(OperandMock.Operand6_1, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultDivide6_1ByMinus2_4, testModel.Result);
@@ -107,7 +107,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void DivideShouldReturnWrongFormatMessage()
         {
-            DataModel testModel = EvaluationController.Divide(OperandMock.operand_WrongFormat, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Divide(OperandMock.OperandWrongFormat, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_WRONG_OPERAND_FORMAT);
@@ -116,7 +116,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void DivideShouldReturnOperandOverflowMessage()
         {
-            DataModel testModel = EvaluationController.Divide(OperandMock.operand_TooBig, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Divide(OperandMock.OperandTooBig, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_OVERFLOW_OPERAND);
@@ -125,7 +125,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void DivideShouldReturnInfinityWhenDivideByZero()
         {
-            DataModel testModel = EvaluationController.Divide(OperandMock.operand_6_1, OperandMock.operand_0);
+            DataModel testModel = EvaluationController.Divide(OperandMock.Operand6_1, OperandMock.Operand0);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultDivide6_1By0, testModel.Result);
@@ -135,7 +135,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void ShouldPowerTwoDoubles()
         {
-            DataModel testModel = EvaluationController.Power(OperandMock.operand_6_1, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Power(OperandMock.Operand6_1, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultPower6_1ByMinus2_4, testModel.Result);
@@ -144,7 +144,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void PowerShouldReturnWrongFormatMessage()
         {
-            DataModel testModel = EvaluationController.Power(OperandMock.operand_WrongFormat, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Power(OperandMock.OperandWrongFormat, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_WRONG_OPERAND_FORMAT);
@@ -153,7 +153,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void PowerShouldReturnOperandOverflowMessage()
         {
-            DataModel testModel = EvaluationController.Power(OperandMock.operand_TooBig, OperandMock.operand_minus2_4);
+            DataModel testModel = EvaluationController.Power(OperandMock.OperandTooBig, OperandMock.OperandMinus2_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_OVERFLOW_OPERAND);
@@ -162,7 +162,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void PowerShouldReturnInfinityWhenResultOverflow()
         {
-            DataModel testModel = EvaluationController.Power(OperandMock.operand_1e308, OperandMock.operand_6_1);
+            DataModel testModel = EvaluationController.Power(OperandMock.Operand1E308, OperandMock.Operand6_1);
             Assert.IsNotNull(testModel.Result);
             Assert.IsTrue(testModel.IsResultOk);
             Assert.AreEqual(ResultMock.ResultPower1e308By6_1, testModel.Result);
@@ -171,7 +171,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void PowerShouldReturnUndefinedMessageWhenResultIsComplexNumber()
         {
-            DataModel testModel = EvaluationController.Power(OperandMock.operand_minus2_4, OperandMock.operand_minus0_4);
+            DataModel testModel = EvaluationController.Power(OperandMock.OperandMinus2_4, OperandMock.OperandMinus0_4);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_UNDEFINED_RESULT);
@@ -182,7 +182,7 @@ namespace BasicTests.UnitTests
         [TestMethod]
         public void WhenUnknownOperatorShouldReturnUndefinedOperatorMessage()
         {
-            DataModel testModel = EvaluationController.Undefined(OperatorMock.operatorDoublePlus);
+            DataModel testModel = EvaluationController.Undefined(OperatorMock.OperatorDoublePlus);
             Assert.IsNotNull(testModel.Result);
             Assert.IsFalse(testModel.IsResultOk);
             StringAssert.Contains(testModel.Result, Messages.MSG_WRONG_OPERATOR);
