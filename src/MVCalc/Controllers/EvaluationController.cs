@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using MVCalc.Models;
+using MVCalc.Constants;
 
 namespace MVCalc.Controllers
 {
     public class EvaluationController
     {
-        public const string MSG_UNDEFINED_RESULT = "Результат операции неопределен.";
-        public const string MSG_WRONG_OPERAND_FORMAT = "Неверный формат операнда.";
-        public const string MSG_OVERFLOW_OPERAND = "Значение операнда выходит за допустимые пределы.";
-        public const string MSG_WRONG_OPERATOR = "Неизвестный символ оператора";
-
         ///<summary>
         ///Вычисляет сумму двух операндов. 
         ///</summary>
@@ -23,13 +19,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) + double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? MSG_UNDEFINED_RESULT : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = MSG_WRONG_OPERAND_FORMAT; }
+            { result = Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = MSG_OVERFLOW_OPERAND; }
+            { result = Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -47,13 +43,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) - double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? MSG_UNDEFINED_RESULT : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = MSG_WRONG_OPERAND_FORMAT; }
+            { result = Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = MSG_OVERFLOW_OPERAND; }
+            { result = Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -71,13 +67,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) * double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? MSG_UNDEFINED_RESULT : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = MSG_WRONG_OPERAND_FORMAT; }
+            { result = Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = MSG_OVERFLOW_OPERAND; }
+            { result = Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -95,13 +91,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) / double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? MSG_UNDEFINED_RESULT : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = MSG_WRONG_OPERAND_FORMAT; }
+            { result =Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = MSG_OVERFLOW_OPERAND; }
+            { result =Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -119,13 +115,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = Math.Pow(double.Parse(op1), double.Parse(op2)); 
-                result = double.IsNaN(resultDouble) ? MSG_UNDEFINED_RESULT : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ?Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = MSG_WRONG_OPERAND_FORMAT; }
+            { result =Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = MSG_OVERFLOW_OPERAND; }
+            { result =Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -139,7 +135,7 @@ namespace MVCalc.Controllers
             // присваиваем значения сразу при инициализации объекта
             DataModel model = new DataModel
             {
-                Result = $"{MSG_WRONG_OPERATOR} ({op}).\n",
+                Result = $"{Messages.MSG_WRONG_OPERATOR} ({op}).\n",
                 IsResultOk = false
             };
             return model;
