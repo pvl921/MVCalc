@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using MVCalc.Models;
+using MVCalc.Constants;
 
 namespace MVCalc.Controllers
 {
-    class EvaluationController
+    public class EvaluationController
     {
-        // Разделил операции по отдельным методам.
-        // Исключения разных типов обрабатываются по отдельности.
-
         ///<summary>
         ///Вычисляет сумму двух операндов. 
         ///</summary>
@@ -20,15 +19,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) + double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = "Неверный формат операнда."; }
+            { result = Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = "Значение операнда выходит за допустимые пределы."; }
-            catch (Exception ex)
-            { result = "Неизвестная ошибка: " + ex.Message; }
+            { result = Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -46,15 +43,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) - double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = "Неверный формат операнда."; }
+            { result = Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = "Значение операнда выходит за допустимые пределы."; }
-            catch (Exception ex)
-            { result = "Неизвестная ошибка: " + ex.Message; }
+            { result = Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -72,15 +67,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) * double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = "Неверный формат операнда."; }
+            { result = Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = "Значение операнда выходит за допустимые пределы."; }
-            catch (Exception ex)
-            { result = "Неизвестная ошибка: " + ex.Message; }
+            { result = Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -98,15 +91,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = (double.Parse(op1) / double.Parse(op2));
-                result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ? Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = "Неверный формат операнда."; }
+            { result =Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = "Значение операнда выходит за допустимые пределы."; }
-            catch (Exception ex)
-            { result = "Неизвестная ошибка: " + ex.Message; }
+            { result =Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -124,15 +115,13 @@ namespace MVCalc.Controllers
             try
             {
                 resultDouble = Math.Pow(double.Parse(op1), double.Parse(op2)); 
-                result = double.IsNaN(resultDouble) ? "Результат операции неопределен." : resultDouble.ToString();
+                result = double.IsNaN(resultDouble) ?Messages.MSG_UNDEFINED_RESULT : resultDouble.ToString();
                 isResultOk = !double.IsNaN(resultDouble);
             }
             catch (FormatException)
-            { result = "Неверный формат операнда."; }
+            { result =Messages.MSG_WRONG_OPERAND_FORMAT; }
             catch (OverflowException)
-            { result = "Значение операнда выходит за допустимые пределы."; }
-            catch (Exception ex)
-            { result = "Неизвестная ошибка: " + ex.Message; }
+            { result =Messages.MSG_OVERFLOW_OPERAND; }
             model.Result = result;
             model.IsResultOk = isResultOk;
             return model;
@@ -146,7 +135,7 @@ namespace MVCalc.Controllers
             // присваиваем значения сразу при инициализации объекта
             DataModel model = new DataModel
             {
-                Result = $"Неизвестный символ оператора ({op}).\n",
+                Result = $"{Messages.MSG_WRONG_OPERATOR} ({op}).\n",
                 IsResultOk = false
             };
             return model;
