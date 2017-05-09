@@ -3,6 +3,7 @@ using MVCalc.Enums;
 using MVCalc.Controllers;
 using MVCalc.Views;
 using MVCalc.Models;
+using System.Data.SqlClient;
 
 namespace MVCalc
 {
@@ -69,6 +70,21 @@ namespace MVCalc
                     View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! {model.Result}\n\n");
                 else
                     View.Render(MessageTypesEnum.MessageTypes.Result, $"Результат:\t\t\t{model.Result}\n\n");
+
+                // logging result to database
+                var resultString = $"{model.IsResultOk}\t{consoleOp1}\t{consoleOp}\t{consoleOp2}\t{model.Result}";
+                using (var conn = new SqlConnection("Server = (local); Database=testDB; User Id=sa; Password=1234;"))
+                using (var command = new SqlCommand()) {
+                    conn.Open();
+                    var p = new SqlParameter("@pResult", System.Data.SqlDbType.NVarChar);
+                    command.Parameters.Add(p);
+                    command.Parameters["@pResult"].Value = resultString;
+                    command.CommandText = "LogInsert";
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Connection = conn;
+                    command.ExecuteNonQuery();
+                }
+                
             }
          }
 
