@@ -2,7 +2,7 @@ CREATE TABLE dbo.[TEST] (
 ID int NOT NULL IDENTITY,
 Result nvarchar(max),
 LogDateTime datetimeoffset,
-CONSTRAINT PK#TEST@ResultLog PRIMARY KEY (ID) 
+CONSTRAINT PK#TEST@ID PRIMARY KEY (ID) 
 )
 GO
 
@@ -54,3 +54,4 @@ GO
 SELECT * FROM [TEST]
 go
 
+drop table TEST
