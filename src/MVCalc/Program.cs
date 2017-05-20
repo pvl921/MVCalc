@@ -4,7 +4,7 @@ using MVCalc.Controllers;
 using MVCalc.Views;
 using MVCalc.Models;
 using MVCalc.Constants;
-using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace MVCalc
 {
@@ -28,65 +28,23 @@ namespace MVCalc
                 // get operand 1 or quit if "exit" or display log if "log" or delete from log if "del ..."
                 View.Render(MessageTypesEnum.MessageTypes.Operand, ($"Введите первый операнд:\t\t")); 
                 consoleOp1 = Console.ReadLine();
-                if (String.Equals(consoleOp1, Commands.EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); break; }
-                if (String.Equals(consoleOp1, Commands.LOG, StringComparison.OrdinalIgnoreCase)) { DisplayLog(); continue; }
-                if (consoleOp1.StartsWith(Commands.LOG_ID, StringComparison.OrdinalIgnoreCase))
-                {
-                    string _idToDisplay = consoleOp1.Replace(Commands.LOG_ID, "").Trim();
-                    if (!DisplayLogId(_idToDisplay)) 
-                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Запись с номером [{_idToDisplay}] отсутствует.\n\n"); }
-                    continue;
-                }
-                if (consoleOp1.StartsWith (Commands.DEL,StringComparison.OrdinalIgnoreCase))
-                {
-                    string _idToDelete = consoleOp1.Replace(Commands.DEL, "").Trim();
-                    if (LogController.DeleteFromLog(_idToDelete) == 0)
-                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Невозможно удалить запись с номером [{_idToDelete}]\n\n"); }
-                    else { View.Render(MessageTypesEnum.MessageTypes.Default, $"Из журнала событий удалена запись с номером [{_idToDelete}]\n\n"); };
-                    continue;
-                }
+                var flowControl = ProcessInput(consoleOp1);
+                if (flowControl == FlowControlEnum.FlowControl.Break) break;
+                if (flowControl == FlowControlEnum.FlowControl.Continue) continue;
 
                 // get operator or quit if "exit" or display log if "log" or delete from log if "del ..."
                 View.Render(MessageTypesEnum.MessageTypes.Operator, ($"Введите оператор:\t\t"));
                 consoleOp = Console.ReadLine();
-                if (String.Equals(consoleOp, Commands.EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); break; }
-                if (String.Equals(consoleOp, Commands.LOG, StringComparison.OrdinalIgnoreCase)) { DisplayLog(); continue; }
-                if (consoleOp.StartsWith(Commands.LOG_ID, StringComparison.OrdinalIgnoreCase))
-                {
-                    string _idToDisplay = consoleOp.Replace(Commands.LOG_ID, "").Trim();
-                    if (!DisplayLogId(_idToDisplay))
-                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Запись с номером [{_idToDisplay}] отсутствует.\n\n"); }
-                    continue;
-                }
-                if (consoleOp.StartsWith(Commands.DEL, StringComparison.OrdinalIgnoreCase))
-                {
-                    string _idToDelete = consoleOp.Replace(Commands.DEL, "").Trim();
-                    if (LogController.DeleteFromLog(_idToDelete) == 0)
-                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Невозможно удалить запись с номером [{_idToDelete}]\n\n"); }
-                    else { View.Render(MessageTypesEnum.MessageTypes.Default, $"Из журнала событий удалена запись с номером [{_idToDelete}]\n\n"); };
-                    continue;
-                }
+                flowControl = ProcessInput(consoleOp);
+                if (flowControl == FlowControlEnum.FlowControl.Break) break;
+                if (flowControl == FlowControlEnum.FlowControl.Continue) continue;
 
                 // get operand 2 or quit if "exit" or display log if "log" or delete from log if "del ..."              
                 View.Render(MessageTypesEnum.MessageTypes.Operand, ($"Введите второй операнд:\t\t"));
                 consoleOp2 = Console.ReadLine();
-                if (String.Equals(consoleOp2, Commands.EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); break; }
-                if (String.Equals(consoleOp2, Commands.LOG, StringComparison.OrdinalIgnoreCase)) { DisplayLog(); continue; }
-                if (consoleOp2.StartsWith(Commands.LOG_ID, StringComparison.OrdinalIgnoreCase))
-                {
-                    string _idToDisplay = consoleOp2.Replace(Commands.LOG_ID, "").Trim();
-                    if (!DisplayLogId(_idToDisplay))
-                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Запись с номером [{_idToDisplay}] отсутствует.\n\n"); }
-                    continue;
-                }
-                if (consoleOp2.StartsWith(Commands.DEL, StringComparison.OrdinalIgnoreCase))
-                {
-                    string _idToDelete = consoleOp2.Replace(Commands.DEL, "").Trim();
-                    if (LogController.DeleteFromLog(_idToDelete) == 0)
-                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Невозможно удалить запись с номером [{_idToDelete}]\n\n"); }
-                    else { View.Render(MessageTypesEnum.MessageTypes.Default, $"Из журнала событий удалена запись с номером [{_idToDelete}]\n\n"); };
-                    continue;
-                }
+                flowControl = ProcessInput(consoleOp2);
+                if (flowControl == FlowControlEnum.FlowControl.Break) break;
+                if (flowControl == FlowControlEnum.FlowControl.Continue) continue;
 
                 // calculate the result and check for undefined operator
                 DataModel model;
@@ -119,7 +77,7 @@ namespace MVCalc
                     View.Render(MessageTypesEnum.MessageTypes.Result, $"Результат:\t\t\t{model.Result}\n\n");
 
                 // logging result to database
-                LogController.WriteToLog(model, consoleOp1, consoleOp, consoleOp2);
+                if (LogController.Add(model, consoleOp1, consoleOp, consoleOp2) == 0) View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! {Messages.MSG_DB_FAILURE}\n\n"); ;
             }
          }
 
@@ -129,50 +87,62 @@ namespace MVCalc
             View.Render(MessageTypesEnum.MessageTypes.Default, "...quitting...\n");
         }
 
-        // метод для отображения записи из лога по ID через метод view 
-        static bool DisplayLogId (string input)
+        // вспомогательный метод для распознавания команд при вводе
+        // возвращает значения FlowControlEnum для выхода из программы, прерывания текущего цикла, нормального продолжения цикла
+        static FlowControlEnum.FlowControl ProcessInput(string input)
         {
-            if (!int.TryParse(input, out int id)) return false;
+            if (String.Equals(input, Commands.EXIT, StringComparison.OrdinalIgnoreCase)) { DisplayExitMessage(); return FlowControlEnum.FlowControl.Break; }
 
-            using (var conn = new SqlConnection(Commands.CONNECTION_STRING))
-            using (var command = new SqlCommand("LogViewId", conn))
-            {
-                conn.Open();
-                command.Parameters.AddWithValue("@pID", id);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+            if (String.Equals(input, Commands.LOG, StringComparison.OrdinalIgnoreCase)) {
                 try
                 {
-                    SqlDataReader dr = command.ExecuteReader();
-                    while (dr.Read())
+                    List<LogModel> logToDisplay = LogController.List();
+                    View.Render(MessageTypesEnum.MessageTypes.Default, "[Журнал событий]\n");
+                    foreach (var row in logToDisplay)
                     {
-                        View.Render(MessageTypesEnum.MessageTypes.Default, $"[Запись из журнала событий ID={id}]\n");
-                        View.Render(MessageTypesEnum.MessageTypes.Default, $"ID: {dr[0]}\tДействие: {dr[1]}\tВремя: {dr[2]}\n\n");
+                        View.Render(MessageTypesEnum.MessageTypes.Default, $"ID: {row.ID}\tДействие: {row.ResultLog}\tВремя: {row.DateTimeLog}\n");
                     }
-                    return dr.HasRows;
+                    View.Render(MessageTypesEnum.MessageTypes.Default, "[Конец журнала событий]\n\n");
                 }
-                catch
-                {
-                    return false;
-                }
+                catch { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! {Messages.MSG_DB_FAILURE}\n\n"); };
+                return FlowControlEnum.FlowControl.Continue;
             }
+
+            if (input.StartsWith(Commands.LOG_ID, StringComparison.OrdinalIgnoreCase))
+            {
+                if (!int.TryParse(input.Replace(Commands.LOG_ID, "").Trim(), out int id))
+                {
+                    View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Необходимо ввести целое число.\n\n");
+                    return FlowControlEnum.FlowControl.Continue;
+                };
+                try
+                {
+                    LogModel row = LogController.Get(id);
+                    if (row.ID > 0)
+                    { View.Render(MessageTypesEnum.MessageTypes.Default, $"[Запись из журнала событий ID={row.ID}]\n" +
+                        $"ID: {row.ID}\tДействие: {row.ResultLog}\tВремя: {row.DateTimeLog}\n\n"); }
+                    else
+                    { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Запись с номером [{id}] отсутствует.\n\n"); }
+                }
+                catch { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! {Messages.MSG_DB_FAILURE}\n\n"); }
+                return FlowControlEnum.FlowControl.Continue;
+            }
+
+            if (input.StartsWith(Commands.DEL, StringComparison.OrdinalIgnoreCase))
+            {
+                if (!int.TryParse(input.Replace(Commands.DEL, "").Trim(), out int idToDelete))
+                {
+                    View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Необходимо ввести целое число.\n\n");
+                    return FlowControlEnum.FlowControl.Continue;
+                };
+                if (LogController.Delete(idToDelete) == 0)
+                { View.Render(MessageTypesEnum.MessageTypes.Warning, $"ОШИБКА! Невозможно удалить запись с номером [{idToDelete}]\n\n"); }
+                else { View.Render(MessageTypesEnum.MessageTypes.Default, $"Из журнала событий удалена запись с номером [{idToDelete}]\n\n"); };
+                return FlowControlEnum.FlowControl.Continue;
+            }
+            return FlowControlEnum.FlowControl.Normal;
         }
 
-        // метод для отображения всего лога через метод view 
-        static void DisplayLog()
-        {
-            using (var conn = new SqlConnection(Commands.CONNECTION_STRING))
-            using (var command = new SqlCommand("LogView", conn))
-            {
-                conn.Open();
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                View.Render(MessageTypesEnum.MessageTypes.Default, "[Журнал событий]\n");
-                SqlDataReader dr = command.ExecuteReader();
-                while (dr.Read())
-                {
-                    View.Render(MessageTypesEnum.MessageTypes.Default, $"ID: {dr[0]}\tДействие: {dr[1]}\tВремя: {dr[2]}\n");
-                }
-                View.Render(MessageTypesEnum.MessageTypes.Default, "[Конец журнала событий]\n\n");
-            }
-        }
+
      }
 }

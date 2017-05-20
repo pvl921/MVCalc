@@ -1,44 +1,54 @@
 CREATE TABLE dbo.[TEST] (
-ID int NOT NULL PRIMARY KEY IDENTITY,
+ID int NOT NULL IDENTITY,
 Result nvarchar(max),
-LogDateTime datetimeoffset 
+LogDateTime datetimeoffset,
+CONSTRAINT PK#TEST@ResultLog PRIMARY KEY (ID) 
 )
 GO
 
-IF OBJECT_ID ( 'LogInsert', 'P' ) IS NOT NULL  
-    DROP PROCEDURE dbo.LogInsert;
+IF OBJECT_ID ( '[Add]', 'P' ) IS NOT NULL  
+    DROP PROCEDURE dbo.[Add]
 GO
-IF OBJECT_ID ( 'LogDelete', 'P' ) IS NOT NULL  
-    DROP PROCEDURE dbo.LogDelete;
+IF OBJECT_ID ( '[Delete]', 'P' ) IS NOT NULL  
+    DROP PROCEDURE dbo.[Delete];
 GO
-IF OBJECT_ID ( 'LogViewId', 'P' ) IS NOT NULL  
-    DROP PROCEDURE dbo.LogViewId;
+IF OBJECT_ID ( '[Get]', 'P' ) IS NOT NULL  
+    DROP PROCEDURE dbo.[Get];
 GO
-IF OBJECT_ID ( 'LogView', 'P' ) IS NOT NULL  
-    DROP PROCEDURE dbo.LogView;
+IF OBJECT_ID ( '[List]', 'P' ) IS NOT NULL  
+    DROP PROCEDURE dbo.[List];
 GO
 
 
-CREATE PROCEDURE LogInsert (@pResult nvarchar(max), @pDate datetimeoffset)
+CREATE PROCEDURE [Add] (@pResult nvarchar(max), @pDate datetimeoffset, @pID int output)
 AS
+BEGIN
 INSERT INTO dbo.[TEST](Result,LogDateTime)
-VALUES (@pResult, CAST(@pDate AS datetimeoffset));
+VALUES (@pResult, @pDate);
+SELECT @pID = @@IDENTITY FROM dbo.[TEST]
+END
 GO
 
-CREATE PROCEDURE LogDelete (@pID int)
+CREATE PROCEDURE [Delete] (@pID int)
 AS
+BEGIN
 DELETE FROM dbo.[TEST]
 WHERE ID = @pID
+END
 GO
 
-CREATE PROCEDURE LogViewId (@pID int)
+CREATE PROCEDURE [Get] (@pID int)
 AS
+BEGIN
 SELECT * FROM dbo.[TEST] WHERE ID = @pID
+END
 GO
 
-CREATE PROCEDURE LogView 
+CREATE PROCEDURE [List]
 AS
+BEGIN
 SELECT * FROM dbo.[TEST]
+END
 GO
 
 SELECT * FROM [TEST]
