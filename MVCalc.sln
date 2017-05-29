@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCalc", "src\MVCalc\MVCalc.csproj", "{E3009826-9C7B-46F4-B64F-816A9EEE0025}"
 EndProject
@@ -15,6 +15,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F8FDE5C4-403A-4B01-99CD-05466D733C67}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicTests", "test\BasicTests\BasicTests.csproj", "{518E13E8-18B1-4DD9-B842-0C1434897DCC}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MSSQLDB", "MSSQLDB\MSSQLDB.sqlproj", "{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,15 @@ Global
 		{518E13E8-18B1-4DD9-B842-0C1434897DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{518E13E8-18B1-4DD9-B842-0C1434897DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{518E13E8-18B1-4DD9-B842-0C1434897DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.CI|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.CI|Any CPU.Build.0 = Debug|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.CI|Any CPU.Deploy.0 = Debug|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC60B0D0-DCAF-4B4B-ABF9-A305025EB32E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
