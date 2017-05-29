@@ -99,6 +99,7 @@ namespace MVCalc.Controllers
         ///</summary>
         class GetDBStoredProcedure : IDisposable
         {
+            private bool disposed = false;
             public SqlConnection connection { get; }
             public SqlCommand command { get; }
             public GetDBStoredProcedure(string sp)
@@ -109,8 +110,27 @@ namespace MVCalc.Controllers
             }
             public void Dispose ()
             {
-                command.Dispose();
-                connection.Dispose();
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposed)
+                {
+                    if (disposing)
+                    {
+                        // Free other state (managed objects).
+                        command.Dispose();
+                        connection.Dispose();
+                    }
+                    // Free your own state (unmanaged objects).
+                    // Set large fields to null.
+                    disposed = true;
+                }
+            }
+            ~GetDBStoredProcedure()
+            {
+                Dispose(false);
             }
         }
     }
